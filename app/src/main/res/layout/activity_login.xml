@@ -42,13 +42,14 @@
     </android.support.design.widget.TextInputLayout>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnEnter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/oval"
+        android:onClick="signin"
         android:text="Entrar"
         android:textColor="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="@+id/textInputLayout"

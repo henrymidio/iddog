@@ -1,6 +1,8 @@
 package idwall.iddog.ui.dogs;
 
+import android.app.FragmentTransaction;
 import android.graphics.Rect;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -56,7 +58,9 @@ public class DogsActivity extends AppCompatActivity {
             return;
         }
 
-        rcAdapter = new DogsRVAdapter(productsList);
+        FragmentManager fm = getSupportFragmentManager();
+
+        rcAdapter = new DogsRVAdapter(productsList, fm);
         int spanCount = 2; // 3 columns
         int spacing = 6; // 50px
         boolean includeEdge = true;

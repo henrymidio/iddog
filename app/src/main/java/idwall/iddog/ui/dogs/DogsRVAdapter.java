@@ -1,7 +1,7 @@
 package idwall.iddog.ui.dogs;
 
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +16,11 @@ import idwall.iddog.R;
 public class DogsRVAdapter extends RecyclerView.Adapter<DogsRVAdapter.ViewHolder> {
 
     private List<String> itemList;
-    private OnItemClickListener listener;
+    private static FragmentManager fm;
 
-    public DogsRVAdapter(List<String> itemList) {
+    public DogsRVAdapter(List<String> itemList, FragmentManager fm) {
         this.itemList = itemList;
-        this.listener = listener;
+        this.fm = fm;
     }
 
     @Override
@@ -32,16 +32,12 @@ public class DogsRVAdapter extends RecyclerView.Adapter<DogsRVAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.bind(itemList.get(position), listener);
+        holder.bind(itemList.get(position));
     }
 
     @Override
     public int getItemCount() {
         return itemList.size();
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(String item);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -52,12 +48,18 @@ public class DogsRVAdapter extends RecyclerView.Adapter<DogsRVAdapter.ViewHolder
             super(v);
 
             productPhoto = v.findViewById(R.id.dog_photo);
-            Log.e("tag", productPhoto.getTag().toString());
+
         }
 
-        public void bind(final String item, final OnItemClickListener listener) {
+        public void bind(final String item) {
             Picasso.get().load(item).into(productPhoto);
-            Log.e("img", item);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+
+                    DogFragment dogFragment = new DogFragment();
+                    dogFragment.show(fm.beginTransaction(), "dog");
+                }
+            });
         }
 
     }
