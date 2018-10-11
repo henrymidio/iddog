@@ -2,18 +2,27 @@ package idwall.iddog.ui.signin;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.content.Context;
 import android.util.Log;
+
+import idwall.iddog.data.AuthRepository;
 
 public class SignInViewModel extends ViewModel {
 
-    protected MutableLiveData<SignInEvent> performSignInEvent = new MutableLiveData<SignInEvent>();
+    private AuthRepository authRepository;
 
-    enum SignInEvent {
-        RequestSignIn
+    public enum SignInEvent {
+        SignInOk, SignInError
     }
 
-    public void onSignIn() {
-        performSignInEvent.postValue(SignInEvent.RequestSignIn);
+    public void init(Context context) {
+        authRepository = new AuthRepository(context);
+    }
+
+    public MutableLiveData<SignInEvent> onSignIn(String email) {
+
+        return authRepository.doSignInApiCall(email);
+
     }
 
 }
