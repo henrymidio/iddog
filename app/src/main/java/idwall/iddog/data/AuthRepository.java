@@ -4,6 +4,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.util.Log;
 
+import idwall.iddog.data.local.prefs.PreferencesHelper;
 import idwall.iddog.data.model.AuthRequest;
 import idwall.iddog.data.model.AuthResponse;
 import idwall.iddog.data.model.User;
@@ -23,10 +24,7 @@ public class AuthRepository {
 
     public AuthRepository(Context context) {
         this.context = context;
-        retrofit = new Retrofit.Builder()
-                .baseUrl(ApiEndpoint.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        retrofit = NetworkServiceLocator.getRetrofit();
     }
 
     public MutableLiveData<SignInViewModel.SignInEvent> doSignInApiCall(String email) {
@@ -40,14 +38,10 @@ public class AuthRepository {
             @Override
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
 
-                Log.e("res", call.request().body().contentType().toString());
-
                 try {
                     User user = response.body().getUser();
-                    Log.e("token", user.getToken());
-                    //Database.storeLocal(user);
 
-                    //PreferencesHelper.setUserLogged(context);
+                    PreferencesHelper.setUserToken(context, user.getToken());
 
                     event.setValue(SignInViewModel.SignInEvent.SignInOk);
 

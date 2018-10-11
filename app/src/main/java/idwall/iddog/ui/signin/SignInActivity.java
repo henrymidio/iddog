@@ -55,7 +55,7 @@ public class SignInActivity extends BaseActivity {
 
                     Intent intent = new Intent(SignInActivity.this, BreedsActivity.class);
                     startActivity(intent);
-                    
+
                     finish();
                 } else {
                     hideLoading();

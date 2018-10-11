@@ -1,5 +1,6 @@
 package idwall.iddog.ui.dogs;
 
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -42,21 +43,25 @@ public class DogsRVAdapter extends RecyclerView.Adapter<DogsRVAdapter.ViewHolder
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView productPhoto;
+        private ImageView dogPhoto;
 
         public ViewHolder(View v) {
             super(v);
 
-            productPhoto = v.findViewById(R.id.dog_photo);
+            dogPhoto = v.findViewById(R.id.dog_photo);
 
         }
 
-        public void bind(final String item) {
-            Picasso.get().load(item).into(productPhoto);
+        public void bind(final String imagePath) {
+            Picasso.get().load(imagePath).into(dogPhoto);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
 
-                    DogFragment dogFragment = new DogFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("imagePath", imagePath);
+
+                    DogFullFragment dogFragment = new DogFullFragment();
+                    dogFragment.setArguments(bundle);
                     dogFragment.show(fm.beginTransaction(), "dog");
                 }
             });

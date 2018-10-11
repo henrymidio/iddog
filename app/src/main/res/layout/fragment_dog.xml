@@ -4,12 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black"
-    tools:context=".ui.dogs.DogFragment">
+    tools:context=".ui.dogs.DogFullFragment">
 
     <ImageView
+        android:id="@+id/fullImg"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:src="@drawable/husky" />
+        />
 
 </FrameLayout>

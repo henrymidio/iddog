@@ -1,13 +1,16 @@
 package idwall.iddog.ui.dogs;
 
 import android.app.FragmentTransaction;
+import android.arch.lifecycle.Observer;
 import android.graphics.Rect;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +28,28 @@ public class DogsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dogs);
 
-        setRecyclerView();
-        loadDogs();
+        // Recupera breed da activity anterior para fazer o request
+        String breed = getIntent().getStringExtra("breed").toLowerCase();
+
+        //Inicializa View Model
+        DogsViewModel dogsViewModel = new DogsViewModel();
+        dogsViewModel.init(this);
+
+        buildRecyclerView();
+
+        dogsViewModel.feed(breed).observe(this, new Observer<List<String>>() {
+            @Override
+            public void onChanged(@Nullable List<String> dogsList) {
+                if(dogsList != null) {
+                    loadDogs(dogsList);
+                } else {
+                    Toast.makeText(DogsActivity.this, "Erro de carregamento", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
-    private void setRecyclerView() {
+    private void buildRecyclerView() {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
 
@@ -37,30 +57,15 @@ public class DogsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(gaggeredGridLayoutManager);
     }
 
-    public void loadDogs() {
-        //mProgressBar.setVisibility(View.VISIBLE);
-
-        List<String> dogs = new ArrayList<String>();
-        dogs.add("https://dog.ceo/api/img/hound-english/n02089973_1.jpg");
-        dogs.add("https://dog.ceo/api/img/hound-english/n02089973_1000.jpg");
-        dogs.add("https://dog.ceo/api/img/hound-english/n02089973_1.jpg");
-        dogs.add("https://dog.ceo/api/img/hound-english/n02089973_1.jpg");
-        dogs.add("https://dog.ceo/api/img/hound-english/n02089973_1.jpg");
-        dogs.add("https://dog.ceo/api/img/hound-english/n02089973_1.jpg");
-
-        renderProducts(dogs);
-    }
-
-    private void renderProducts(List<String> productsList) {
+    private void loadDogs(List<String> dogsList) {
         if(rcAdapter != null) {
-            //rcAdapter.filter(productsList);
             //mProgressBar.setVisibility(View.GONE);
             return;
         }
 
         FragmentManager fm = getSupportFragmentManager();
 
-        rcAdapter = new DogsRVAdapter(productsList, fm);
+        rcAdapter = new DogsRVAdapter(dogsList, fm);
         int spanCount = 2; // 3 columns
         int spacing = 6; // 50px
         boolean includeEdge = true;

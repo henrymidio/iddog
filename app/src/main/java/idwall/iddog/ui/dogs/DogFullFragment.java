@@ -8,15 +8,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 import idwall.iddog.R;
 
-public class DogFragment extends DialogFragment {
+public class DogFullFragment extends DialogFragment {
 
 
-    public DogFragment() {
-        // Required empty public constructor
-    }
+    public DogFullFragment() {}
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,8 +30,13 @@ public class DogFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_dog, container, false);
+        View view = inflater.inflate(R.layout.fragment_dog, container, false);
+
+        String imagePath = getArguments().getString("imagePath");
+        ImageView dogPhoto = view.findViewById(R.id.fullImg);
+        Picasso.get().load(imagePath).into(dogPhoto);
+
+        return view;
     }
 
 }
