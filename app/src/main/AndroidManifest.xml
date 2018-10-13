@@ -17,7 +17,7 @@
             android:theme="@style/Theme.AppCompat.NoActionBar">
         </activity>
 
-        <activity android:name=".ui.BreedsActivity">
+        <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,7 +26,7 @@
         </activity>
 
         <activity android:name=".ui.dogs.DogsActivity"
-            android:parentActivityName=".ui.BreedsActivity">
+            android:parentActivityName=".ui.MainActivity">
         </activity>
     </application>
 

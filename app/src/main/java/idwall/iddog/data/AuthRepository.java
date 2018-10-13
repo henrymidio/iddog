@@ -8,14 +8,11 @@ import idwall.iddog.data.local.prefs.PreferencesHelper;
 import idwall.iddog.data.model.AuthRequest;
 import idwall.iddog.data.model.AuthResponse;
 import idwall.iddog.data.model.User;
-import idwall.iddog.data.remote.ApiEndpoint;
 import idwall.iddog.data.remote.services.AuthService;
-import idwall.iddog.ui.signin.SignInViewModel;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AuthRepository {
 
@@ -27,9 +24,9 @@ public class AuthRepository {
         retrofit = NetworkServiceLocator.getRetrofit();
     }
 
-    public MutableLiveData<SignInViewModel.SignInEvent> doSignInApiCall(String email) {
+    public MutableLiveData<User> doSignInApiCall(String email) {
 
-        final MutableLiveData<SignInViewModel.SignInEvent> event = new MutableLiveData<SignInViewModel.SignInEvent>();
+        final MutableLiveData<User> event = new MutableLiveData<>();
 
         AuthService service = retrofit.create(AuthService.class);
         Call<AuthResponse> repos = service.signin(new AuthRequest(email));
@@ -39,22 +36,20 @@ public class AuthRepository {
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
 
                 try {
+
                     User user = response.body().getUser();
-
-                    PreferencesHelper.setUserToken(context, user.getToken());
-
-                    event.setValue(SignInViewModel.SignInEvent.SignInOk);
+                    event.setValue(user);
 
                 } catch(Exception e) {
                     e.printStackTrace();
-                    event.setValue(SignInViewModel.SignInEvent.SignInError);
+                    event.setValue(null);
                 }
 
             }
 
             @Override
             public void onFailure(Call<AuthResponse> call, Throwable t) {
-                event.setValue(SignInViewModel.SignInEvent.SignInError);
+                event.setValue(null);
                 t.printStackTrace();
             }
         });

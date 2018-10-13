@@ -18,7 +18,7 @@ import idwall.iddog.data.model.Breed;
 import idwall.iddog.ui.dogs.DogsActivity;
 import idwall.iddog.ui.signin.SignInActivity;
 
-public class BreedsActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     private LinearLayout linearLayout;
 
@@ -65,7 +65,7 @@ public class BreedsActivity extends AppCompatActivity {
             card.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(BreedsActivity.this, DogsActivity.class);
+                    Intent intent = new Intent(MainActivity.this, DogsActivity.class);
                     intent.putExtra("breed", breed.getName());
                     startActivity(intent);
                 }

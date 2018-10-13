@@ -2,4 +2,6 @@
     <string name="app_name">IDDog</string>
     <string name="email">Email</string>
     <string name="entrar">Entrar</string>
+    <string name="email_invalido">Email inválido</string>
+    <string name="erro_autenticacao">Erro de autenticação</string>
 </resources>

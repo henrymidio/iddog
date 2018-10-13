@@ -1,12 +1,12 @@
 package idwall.iddog.ui.signin;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,14 +14,12 @@ import android.widget.Toast;
 import idwall.iddog.BaseActivity;
 import idwall.iddog.R;
 import idwall.iddog.databinding.ActivitySigninBinding;
-import idwall.iddog.ui.BreedsActivity;
+import idwall.iddog.ui.MainActivity;
 import idwall.iddog.utils.Validator;
 
 public class SignInActivity extends BaseActivity {
 
     private SignInViewModel signinViewModel;
-
-    private MutableLiveData<SignInViewModel.SignInEvent> signInEventMutableLiveData;
 
     private TextView email;
 
@@ -40,36 +38,30 @@ public class SignInActivity extends BaseActivity {
 
     public void signIn(View view) {
         if(!Validator.isEmailValid(email.getText().toString())) {
-            showErrorMessage("Email inválido");
+            showErrorMessage(getString(R.string.email_invalido));
             return;
         }
 
         showLoading();
 
-        signInEventMutableLiveData = signinViewModel.onSignIn(email.getText().toString());
-        signInEventMutableLiveData.observe(this, new Observer<SignInViewModel.SignInEvent>() {
+        signinViewModel.onSignIn(email.getText().toString()).observe(this, new Observer<SignInViewModel.SignInEvent>() {
             @Override
             public void onChanged(@Nullable SignInViewModel.SignInEvent signInEvent) {
                 if(signInEvent == SignInViewModel.SignInEvent.SignInOk) {
                     hideLoading();
 
-                    Intent intent = new Intent(SignInActivity.this, BreedsActivity.class);
+                    Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                     startActivity(intent);
 
                     finish();
                 } else {
                     hideLoading();
 
-                    showErrorMessage("Erro de autenticação");
+                    showErrorMessage(getString(R.string.erro_autenticacao));
                 }
             }
         });
-    }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        signInEventMutableLiveData.removeObservers(this);
     }
 
     private void showErrorMessage(String msg) {
