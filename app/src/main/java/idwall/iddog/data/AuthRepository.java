@@ -2,9 +2,7 @@ package idwall.iddog.data;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
-import android.util.Log;
 
-import idwall.iddog.data.local.prefs.PreferencesHelper;
 import idwall.iddog.data.model.AuthRequest;
 import idwall.iddog.data.model.AuthResponse;
 import idwall.iddog.data.model.User;
@@ -21,7 +19,7 @@ public class AuthRepository {
 
     public AuthRepository(Context context) {
         this.context = context;
-        retrofit = NetworkServiceLocator.getRetrofit();
+        retrofit = DataServiceLocator.getRetrofit();
     }
 
     public MutableLiveData<User> doSignInApiCall(String email) {
@@ -56,5 +54,6 @@ public class AuthRepository {
 
         return event;
     }
+
 
 }

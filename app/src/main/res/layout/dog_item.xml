@@ -15,7 +15,6 @@
 
         <ImageView
             android:id="@+id/dog_photo"
-            android:tag="teste"
             android:layout_width="220dp"
             android:layout_height="190dp"
             android:contentDescription="Descrição"

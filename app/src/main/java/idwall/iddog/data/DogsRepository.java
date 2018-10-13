@@ -7,13 +7,11 @@ import java.util.List;
 
 import idwall.iddog.data.local.prefs.PreferencesHelper;
 import idwall.iddog.data.model.DogsResponse;
-import idwall.iddog.data.remote.ApiEndpoint;
 import idwall.iddog.data.remote.services.DogsService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DogsRepository {
 
@@ -23,7 +21,7 @@ public class DogsRepository {
 
     public DogsRepository(Context context) {
         this.context = context;
-        retrofit = NetworkServiceLocator.getRetrofit();
+        retrofit = DataServiceLocator.getRetrofit();
 
         token = PreferencesHelper.getUserToken(context);
     }

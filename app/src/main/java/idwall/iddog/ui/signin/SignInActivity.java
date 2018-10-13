@@ -34,17 +34,8 @@ public class SignInActivity extends BaseActivity {
 
         // Binding views
         email = binding.email;
-    }
 
-    public void signIn(View view) {
-        if(!Validator.isEmailValid(email.getText().toString())) {
-            showErrorMessage(getString(R.string.email_invalido));
-            return;
-        }
-
-        showLoading();
-
-        signinViewModel.onSignIn(email.getText().toString()).observe(this, new Observer<SignInViewModel.SignInEvent>() {
+        signinViewModel.signInState.observe(this, new Observer<SignInViewModel.SignInEvent>() {
             @Override
             public void onChanged(@Nullable SignInViewModel.SignInEvent signInEvent) {
                 if(signInEvent == SignInViewModel.SignInEvent.SignInOk) {
@@ -61,6 +52,17 @@ public class SignInActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    public void signIn(View view) {
+        if(!Validator.isEmailValid(email.getText().toString())) {
+            showErrorMessage(getString(R.string.email_invalido));
+            return;
+        }
+
+        showLoading();
+
+        signinViewModel.onSignIn(email.getText().toString());
 
     }
 

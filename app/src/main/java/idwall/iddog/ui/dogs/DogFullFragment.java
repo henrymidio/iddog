@@ -4,13 +4,12 @@ package idwall.iddog.ui.dogs;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import idwall.iddog.R;
 
@@ -34,7 +33,10 @@ public class DogFullFragment extends DialogFragment {
 
         String imagePath = getArguments().getString("imagePath");
         ImageView dogPhoto = view.findViewById(R.id.fullImg);
-        Picasso.get().load(imagePath).into(dogPhoto);
+
+        Glide.with(getContext())
+                .load(imagePath)
+                .into(dogPhoto);
 
         return view;
     }

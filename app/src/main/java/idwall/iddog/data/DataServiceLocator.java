@@ -4,7 +4,7 @@ import idwall.iddog.data.remote.ApiEndpoint;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class NetworkServiceLocator {
+public class DataServiceLocator {
 
     public static Retrofit getRetrofit() {
         return new Retrofit.Builder()

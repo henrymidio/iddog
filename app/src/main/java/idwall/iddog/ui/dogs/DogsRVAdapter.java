@@ -1,5 +1,6 @@
 package idwall.iddog.ui.dogs;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -18,10 +19,12 @@ public class DogsRVAdapter extends RecyclerView.Adapter<DogsRVAdapter.ViewHolder
 
     private List<String> itemList;
     private static FragmentManager fm;
+    private static Context context;
 
-    public DogsRVAdapter(List<String> itemList, FragmentManager fm) {
+    public DogsRVAdapter(List<String> itemList, FragmentManager fm, final Context context) {
         this.itemList = itemList;
         this.fm = fm;
+        this.context = context;
     }
 
     @Override
@@ -34,6 +37,11 @@ public class DogsRVAdapter extends RecyclerView.Adapter<DogsRVAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.bind(itemList.get(position));
+    }
+
+    public void setItemList(List<String> list) {
+        itemList = list;
+        this.notifyDataSetChanged();
     }
 
     @Override
@@ -53,7 +61,11 @@ public class DogsRVAdapter extends RecyclerView.Adapter<DogsRVAdapter.ViewHolder
         }
 
         public void bind(final String imagePath) {
-            Picasso.get().load(imagePath).into(dogPhoto);
+
+            Glide.with(context)
+                    .load(imagePath)
+                    .into(dogPhoto);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
 

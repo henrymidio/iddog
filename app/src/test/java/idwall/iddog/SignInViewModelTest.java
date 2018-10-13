@@ -1,8 +1,6 @@
 package idwall.iddog;
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Context;
 
@@ -12,13 +10,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import idwall.iddog.data.model.User;
 import idwall.iddog.ui.signin.SignInViewModel;
 import idwall.iddog.utils.Validator;
 
@@ -50,9 +45,8 @@ public class SignInViewModelTest {
         String email = "hbjhbh@jh.com";
         assertEquals(true, Validator.isEmailValid(email));
 
-        MutableLiveData<SignInViewModel.SignInEvent> signInEventLiveData = (MutableLiveData< SignInViewModel.SignInEvent>) signInViewModel.onSignIn(email);
-        signInEventLiveData.observeForever(observer);
-        signInEventLiveData.setValue(SignInViewModel.SignInEvent.SignInOk);
+        signInViewModel.signInState.observeForever(observer);
+        signInViewModel.signInState.setValue(SignInViewModel.SignInEvent.SignInOk);
 
         verify(observer).onChanged(SignInViewModel.SignInEvent.SignInOk);
 
@@ -64,9 +58,8 @@ public class SignInViewModelTest {
         String email = "hbjhb";
         assertEquals(false, Validator.isEmailValid(email));
 
-        MutableLiveData<SignInViewModel.SignInEvent> signInEventLiveData = (MutableLiveData< SignInViewModel.SignInEvent>) signInViewModel.onSignIn(email);
-        signInEventLiveData.observeForever(observer);
-        signInEventLiveData.setValue(SignInViewModel.SignInEvent.SignInError);
+        signInViewModel.signInState.observeForever(observer);
+        signInViewModel.signInState.setValue(SignInViewModel.SignInEvent.SignInError);
 
         verify(observer).onChanged(SignInViewModel.SignInEvent.SignInError);
 
